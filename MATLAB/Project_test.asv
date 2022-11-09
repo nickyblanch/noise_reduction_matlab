@@ -1,0 +1,22 @@
+%% Author: Nicolas Blanchard
+
+%% Loading our image
+image = imread('300.png');
+image = rgb2gray(image);
+
+%% Obtaining results
+matlab_median = matlab_median(image);
+
+custom_median = custom_median(image, 5);
+
+custom_average = custom_average(image);
+
+[custom_lowpass, filter_mask, f
+
+    
+
+
+
+%% Calculating SNR
+original_image = imread('ambulance_no_noise.png');
+noisy_image = imread('ambulance_noise.png');
