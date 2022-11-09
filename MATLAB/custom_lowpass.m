@@ -29,7 +29,7 @@ function [final_image, filter_mask, fourier_transformed_image] = custom_lowpass(
 
     result = filter_mask.*fourier_transformed_image;    % Convolve our filter mask with the fourier transformed image to remove eveyrthing outside of the mask.
 
-    final_image = real(ifft2(double(result)));          % Inverse fourier transform to re-create the image
+    final_image = uint8(real(ifft2(double(result))));          % Inverse fourier transform to re-create the image
 
     % figure;
     % imshowpair(image, final_image, 'montage');          % Compare the results to the original image

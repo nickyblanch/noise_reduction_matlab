@@ -17,9 +17,6 @@ function [final_image] = gaussian_approach(image, window_radius, alpha)
     % Size of image:
     [M, N] = size(image);
 
-    % Size of frame:
-    window_radius = 3;
-
     % Loop variable to keep track of how many pixels we have added per median
     % calculation:
     loop_variable = 0;
@@ -78,7 +75,7 @@ function [final_image] = gaussian_approach(image, window_radius, alpha)
     end
 
     % Now, we must transform our log image back into its original form:
-    final_image = exp(final_image);
+    final_image = uint8(exp(final_image));
     
 %     figure;
 %     imshowpair(exp(image), exp(final_image), 'montage');

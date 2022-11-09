@@ -1,4 +1,4 @@
-function [final_image] = custom_average(image)
+function [final_image] = custom_average(image, window_radius)
 
     % New image we will store our result in:
     final_image = image;
@@ -6,8 +6,6 @@ function [final_image] = custom_average(image)
     % Size of image:
     [M, N] = size(image);
 
-    % Size of frame:
-    window_radius = 4;
 
     % The image is stored as a M x N size 2-D array of unsigned interger values
     % represting the intensity of each pixel. To implement our median filter,
@@ -28,7 +26,7 @@ function [final_image] = custom_average(image)
 
            % Update the pixel value in the center with the median value within
            % the frame
-            final_image(current_y, current_x) = temp_sum / (4*window_radius^2);
+            final_image(current_y, current_x) = temp_sum / ((2*window_radius)^2);
 
             % Reset temp_sum for the next loop
             temp_sum = 0;
