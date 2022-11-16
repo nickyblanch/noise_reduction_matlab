@@ -31,7 +31,7 @@ function [final_image] = gaussian_approach(image, window_radius, alpha)
     sorted_array = zeros(1, num_entries);
 
     % To determine if an edge is present, we utilize the Prewitt kernel
-    % in the x-direction and y-direction, for a window radius of 5 pixels.
+    % in the x-direction and y-direction, of the same size as the window.
     starting_vec_x = [-1 zeros(1, 2*window_radius - 1) 1];        
     prewitt_x = repmat(starting_vec_x, 2*window_radius+1, 1);
 
@@ -51,7 +51,6 @@ function [final_image] = gaussian_approach(image, window_radius, alpha)
 
             % Now, we will apply the Prewitt kernels in the x and y directions
             % to detect if an edge is present.
-
             % If there is not a large difference in pixel values between the two
             % sides or top and bottom, then we are not on an edge:
             if ( abs(sum(prewitt_x .* window, 'all')) < alpha && abs(sum(prewitt_y .* window, 'all')) < alpha )
@@ -70,7 +69,7 @@ function [final_image] = gaussian_approach(image, window_radius, alpha)
             end
            % Otherwise, if there is a large difference in pixel values between
            % the two sides or top and bottom, then we are on an edge and no
-           % smoothing should occur:
+           % smoothing should occur.
         end
     end
 

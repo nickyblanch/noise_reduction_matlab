@@ -3,7 +3,7 @@
 %% Loading our image
 clear;
 clc;
-image = imread('../images/ambulance_no_noise.png');
+image = imread('../images/ambulance_cropped_noisy_bw.png');
 image = rgb2gray(image);
 
 %% Obtaining results
@@ -15,12 +15,12 @@ custom_average = custom_average(image, 5);
 
 [custom_lowpass, filter_mask, fft] = custom_lowpass(image, 50);
 
-custom_adaptive = custom_adaptive(image, 5, 200);
+custom_adaptive = custom_adaptive(image, 4, 250);
 
 gaussian_approach = gaussian_approach(image, 5, 15);
 
 figure;
-imshowpair(image, custom_median, 'montage');
+imshowpair(image, custom_adaptive, 'montage');
 
 %% Display results
 results = {image matlab_median custom_median custom_average custom_lowpass custom_adaptive gaussian_approach};
