@@ -3,7 +3,7 @@
 %% Loading our image
 clear;
 clc;
-image = imread('../images/300_cropped.png');
+image = imread('../images/ambulance_no_noise.png');
 image = rgb2gray(image);
 
 %% Obtaining results
@@ -18,6 +18,9 @@ custom_average = custom_average(image, 5);
 custom_adaptive = custom_adaptive(image, 5, 200);
 
 gaussian_approach = gaussian_approach(image, 5, 15);
+
+figure;
+imshowpair(image, custom_median, 'montage');
 
 %% Display results
 results = {image matlab_median custom_median custom_average custom_lowpass custom_adaptive gaussian_approach};
