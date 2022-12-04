@@ -56,11 +56,10 @@ custom_adaptive = custom_adaptive(noisy_image, 4, 250);
 
 gaussian_approach = gaussian_approach(noisy_image, 5, 15);
 
-SNR_pre_results = {original_image noisy_image matlab_median custom_median custom_average custom_lowpass custom_adaptive gaussian_approach};
+SNR_pre_results = {image matlab_median custom_median custom_average custom_lowpass custom_adaptive gaussian_approach};
 
 for i = 1:numel(SNR_pre_results)
-    [SNR_post_results_psnr(i) SNR_post_results_snr(i)] = psnr(original_image, SNR_pre_results{i});
+    SNR_post_results_snr(i) = psnr(double(original_image), double(SNR_pre_results{i}));
 end
 
-SNR_post_results_snr
-SNR_post_results_psnr
+SNR_post_results
