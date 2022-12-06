@@ -26,7 +26,8 @@ function [final_image] = custom_adaptive(image, window_radius, alpha)
     sorted_array = zeros(1, num_entries);
 
     % To determine if an edge is present, we utilize the Prewitt kernel
-    % in the x-direction and y-direction, for a window radius of 5 pixels.
+    % in the x-direction and y-direction, for a window radius of
+    % window_radius pixels.
     starting_vec_x = [-1 zeros(1, 2*window_radius - 1) 1];        
     prewitt_x = repmat(starting_vec_x, 2*window_radius+1, 1);
 

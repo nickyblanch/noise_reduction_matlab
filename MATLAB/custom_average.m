@@ -26,7 +26,7 @@ function [final_image] = custom_average(image, window_radius)
 
            % Update the pixel value in the center with the median value within
            % the frame
-            final_image(current_y, current_x) = temp_sum / ((2*window_radius)^2);
+            final_image(current_y, current_x) = temp_sum / ((2*window_radius + 1)^2);
 
             % Reset temp_sum for the next loop
             temp_sum = 0;

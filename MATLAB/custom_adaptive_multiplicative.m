@@ -1,4 +1,4 @@
-function [final_image] = gaussian_approach(image, window_radius, alpha)
+function [final_image] = custom_adaptive_multiplicative(image, window_radius, alpha)
 
     % image is the image that we want to filter.
     % window_radius is the radius of the window used for the smoothing

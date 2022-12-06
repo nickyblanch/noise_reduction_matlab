@@ -1,40 +1,30 @@
-function [final_image, filter_mask, fourier_transformed_image] = custom_lowpass(image, cutoff)
+function [final_image] = custom_lowpass(image, cutoff)
 
     % Size of image:
     [M, N] = size(image);
 
-    % Making our digital filter:
-    a = 0:(M-1);                                        % Create a vector from 0 to M-1
-    position_x = find(a>M/2);
-    a(position_x) = a(position_x) - M;                  % Shift that vector so that it is centered at the origin
-    b = 0:(N-1);                                        % Create a vector from 0 to N-1
-    position_y = find(b>N/2);
-    b(position_y) = b(position_y) - N;                  % Shift that vector so that it is centered at the origin
+    % Determining digital filter:
+    a = (M - 1) / 2;                                          % Half of filter length
+    b = (N - 1) / 2;                                          % Half of filter height
+    [n1, n2] = meshgrid(-a:a, -b:b);                          % Matrices of filter length and height
+    n = sqrt(n1.^2 + n2.^2);                                  % Distance from origin of every point in the matrix                                   
+    hd = (cutoff ./ (2 * pi * n)) .* besselj(1, cutoff*n);    % Impulse response of an ideal lowpass filter for n not equal to 0
+    hd(a+1, b+1) = (cutoff^2)/(4*pi);                         % Impulse response of an ideal lowpass filter at n equal to 0
 
-    [B, A] = meshgrid(b, a);                            % Create a mesh grid using our vectors. This essentially creates matrices A and B which are composed of repeating vectors a and b.
+    % Creating our window:
+    w = hamming(M) * hamming(N)';                             % 2D Hamming window
 
-    distance = sqrt(A.^2 + B.^2);                       % To eventually make our mask, we will need to know the distance of each point from the origin (DC region). This calculates distance.
+    % Obtaining h(n1, n2), our actual impulse response:
+    h = hd .* w;
 
-    filter_mask = double(distance <= cutoff);           % Now, anywhere with a distance less than our cutoff gets kept. This creates a disk of radius 'cutoff'.
-    % figure; imagesc(abs(fftshift(filter_mask)));
-    % title("Mask that will be used to only allow low frequency to pass");
-    % ylim([1060 1110]);
-    % xlim([1870 1970]);
-
-    fourier_transformed_image = fft2(double(image));    % Create the 2D fourier transform of our image so we can filter it in the frequency domain.
-    % figure; imagesc(abs(fftshift(fourier_transformed_image)));
-    % title("Frequency spectrum of image");
-    % ylim([1060 1110]);
-    % xlim([1870 1970]);
-
-    result = filter_mask.*fourier_transformed_image;    % Convolve our filter mask with the fourier transformed image to remove eveyrthing outside of the mask.
-
-    final_image = uint8(real(ifft2(double(result))));          % Inverse fourier transform to re-create the image
-
-    % figure;
-    % imshowpair(image, final_image, 'montage');          % Compare the results to the original image
-    % title("Original Image versus Custom Lowpass Filter");
-    %figure;
-    %imshow(final_image, []);                           % If we want to use imshow instead of imshowpair, we need to shift the display range so that the smallest image intensity is 0 and the largest image instensity is 1.
+    % Convolve h(n1, n2) with our signal:
+    final_image = filter2(image, h);
+    
+    % Flip the image to be in the correct orientation:
+    final_image = flip(final_image, 1);
+    final_image = flip(final_image, 2);
+    
+    % Display our result:
+    final_image = uint8(real(final_image));
 
 end
