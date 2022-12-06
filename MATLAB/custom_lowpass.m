@@ -11,10 +11,10 @@ function [final_image] = custom_lowpass(image, cutoff)
     hd = (cutoff ./ (2 * pi * n)) .* besselj(1, cutoff*n);    % Impulse response of an ideal lowpass filter for n not equal to 0
     hd(a+1, b+1) = (cutoff^2)/(4*pi);                         % Impulse response of an ideal lowpass filter at n equal to 0
 
-    % Creating our window:
+    % Creating our window w(n1, n2) = w1(n1) * w1(n2):
     w = hamming(M) * hamming(N)';                             % 2D Hamming window
 
-    % Obtaining h(n1, n2), our actual impulse response:
+    % Obtaining h(n1, n2) = hd(n1, n2) * w(n1, n2), our actual impulse response:
     h = hd .* w;
 
     % Convolve h(n1, n2) with our signal:

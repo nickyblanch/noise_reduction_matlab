@@ -8,6 +8,7 @@
 %             film images. The dependencies are:
 %
 %             * Matlab Image Processing Toolbox
+%             * 'matlab_median.m'
 %             * 'custom_median.m'
 %             * 'custom_lowpass.m'
 %             * 'custom_average.m'
@@ -35,6 +36,7 @@ cutoff_freq = 0.4;
 
 
 %% Applying Filters
+
 matlab_median = matlab_median(image);
 
 custom_median = custom_median(image, window_size);
@@ -51,17 +53,15 @@ custom_adaptive_multiplicative = custom_adaptive_multiplicative(image, window_si
 %% Displaying results
 results = {image matlab_median custom_median custom_average custom_lowpass custom_adaptive custom_adaptive_multiplicative};
 
+titles = ["Original Image", "Matlab Median Filter", "Custom Median Filter", "Custom Average Filter", "Custom Lowpass Filter", "Custom Adaptive Filter", "Custom Adaptive Multiplicative Filter"];
 
-fig = figure(); 
-titles = ["Original Image", "Matlab Median Filter", "Custom Median Filter", "Custom Average Filter", "Custom Lowpass Filter", "Custom Adaptive Filter", "multiplicative Approach"];
-% tlo = tiledlayout(fig,4,2);
-% tlo.TileSpacing='tight';
 for i = 1:numel(results)
-%     ax = nexttile(tlo); 
-%     imshow(results{i},'Parent',ax)
+    
+    % Show results
     figure;
     imshow(results{i});
-    % subplot(2, 4, i), imshow(results{i});
-    % title(titles(i), 'FontSize', 8);
-    imwrite(results{i}, titles(i)+ "_7px" + ".png");
+    title(titles(i));
+    
+    % To save images, uncomment the below line:
+    % imwrite(results{i}, titles(i)+ ".png");
 end
